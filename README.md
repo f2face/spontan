@@ -3,10 +3,14 @@ Imagine you are making short-polling requests to an API endpoint, and you want t
 
 ## Installation
 ### Using pnpm
-> pnpm install spontan
+```bash
+pnpm install spontan
+```
 
 ### Using npm
-> npm install spontan
+```bash
+npm install spontan
+```
 
 ## Example
 ```javascript
