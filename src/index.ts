@@ -63,16 +63,19 @@ export class Spontan {
      * Listen to the specific state property change.
      */
     onChanged(property: keyof State, listener: (oldValue: object, newValue: object) => void) {
-        this.eventEmitter.on(property.toString(), listener);
         if (this.options.debug) {
             console.log(`Listening to "${property}" property.`);
         }
+        this.eventEmitter.on(property.toString(), listener);
     }
 
     /**
      * Listen to the any state property change.
      */
     onAnyChanged(listener: (property: keyof State, oldValue: unknown, newValue: unknown) => void) {
+        if (this.options.debug) {
+            console.log(`Listening to any property.`);
+        }
         this.eventEmitter.on('*', listener);
     }
 }
