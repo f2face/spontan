@@ -20,7 +20,7 @@ export class Spontan {
     /**
      * [Private method] Emit state property change.
      */
-    private _notifyChange<T, U>(property: keyof State, oldValue: T, newValue: U) {
+    private _notifyChange<O, N>(property: keyof State, oldValue: O, newValue: N) {
         this.eventEmitter.emit('*', property, oldValue, newValue);
         this.eventEmitter.emit(property.toString(), oldValue, newValue);
     }
@@ -35,14 +35,14 @@ export class Spontan {
     /**
      * Get latest state (read-only).
      */
-    getState(): object {
+    getState(): State {
         return Object.freeze(structuredClone(this.state));
     }
 
     /**
      * Set new state for multiple state properties.
      */
-    setState(newState: object) {
+    setState(newState: State) {
         for (const [prop, value] of Object.entries(newState)) {
             this.setProperty(prop, value);
         }
@@ -51,7 +51,7 @@ export class Spontan {
     /**
      * Set new value for a state property.
      */
-    setProperty(property: keyof State, newValue: unknown) {
+    setProperty<N>(property: keyof State, newValue: N) {
         if (JSON.stringify(this.state[property]) !== JSON.stringify(newValue)) {
             const oldValue = structuredClone(this.state[property]);
             this.state[property] = newValue;
@@ -62,7 +62,7 @@ export class Spontan {
     /**
      * Listen to the specific state property change.
      */
-    onChanged(property: keyof State, listener: (oldValue: object, newValue: object) => void) {
+    onChanged<O, N>(property: keyof State, listener: (oldValue: O, newValue: N) => void) {
         if (this.options.debug) {
             console.log(`Listening to "${property}" property.`);
         }
@@ -72,7 +72,7 @@ export class Spontan {
     /**
      * Listen to the any state property change.
      */
-    onAnyChanged(listener: (property: keyof State, oldValue: unknown, newValue: unknown) => void) {
+    onAnyChanged<O, N>(listener: (property: keyof State, oldValue: O, newValue: N) => void) {
         if (this.options.debug) {
             console.log(`Listening to any property.`);
         }
