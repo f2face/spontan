@@ -6,12 +6,12 @@ export type SpontanOptions = {
 
 export type State = { [property: string]: unknown };
 
-export default class Spontan {
+export class Spontan {
     private state: State;
     private options: SpontanOptions;
     private eventEmitter: EventEmitter;
 
-    public constructor(initialState = {}, options?: SpontanOptions) {
+    public constructor(initialState: State = {}, options?: SpontanOptions) {
         this.state = initialState || {};
         this.options = options || { debug: false };
         this.eventEmitter = new EventEmitter();
