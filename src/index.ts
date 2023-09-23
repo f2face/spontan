@@ -49,6 +49,13 @@ export class Spontan {
     }
 
     /**
+     * Delete all state properties. This method will not emit any event.
+     */
+    clearState() {
+        this.state = {};
+    }
+
+    /**
      * Set new value for a state property.
      */
     setProperty<N>(property: keyof State, newValue: N) {
