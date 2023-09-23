@@ -1,16 +1,33 @@
 import EventEmitter from 'eventemitter3';
 
+/**
+ * Represents the configuration options for the Spontan class.
+ */
 export type SpontanOptions = {
+    /**
+     * Whether to enable debugging mode.
+     */
     debug: boolean;
 };
 
+/**
+ * Represents the state of the Spontan instance as a key-value store.
+ */
 export type State = { [property: string]: unknown };
 
+/**
+ * The Spontan class is a simple state management library with event handling capabilities.
+ */
 export class Spontan {
-    private state: State;
-    private options: SpontanOptions;
-    private eventEmitter: EventEmitter;
+    private state: State; // The internal state of the Spontan instance.
+    private options: SpontanOptions; // Configuration options.
+    private eventEmitter: EventEmitter; // Event emitter to handle property changes.
 
+    /**
+     * Creates a new Spontan instance.
+     * @param initialState - The initial state of the Spontan instance (default is an empty object).
+     * @param options - Configuration options (default is { debug: false }).
+     */
     public constructor(initialState: State = {}, options?: SpontanOptions) {
         this.state = initialState || {};
         this.options = options || { debug: false };
@@ -18,7 +35,11 @@ export class Spontan {
     }
 
     /**
-     * [Private method] Emit state property change.
+     * Emits a change event when a state property is modified.
+     * @param property - The name of the property that changed.
+     * @param oldValue - The previous value of the property.
+     * @param newValue - The new value of the property.
+     * @private
      */
     private _notifyChange<O, N>(property: keyof State, oldValue: O, newValue: N) {
         this.eventEmitter.emit('*', property, oldValue, newValue);
@@ -26,21 +47,24 @@ export class Spontan {
     }
 
     /**
-     * Get event emmiter.
+     * Returns the event emitter associated with the Spontan instance.
+     * @returns An instance of the EventEmitter class.
      */
     getEventEmitter(): EventEmitter {
         return this.eventEmitter;
     }
 
     /**
-     * Get latest state (read-only).
+     * Returns a read-only copy of the current state.
+     * @returns A read-only snapshot of the state.
      */
     getState(): State {
         return Object.freeze(structuredClone(this.state));
     }
 
     /**
-     * Set new state for multiple state properties.
+     * Sets a new state for multiple state properties.
+     * @param newState - The new state to apply.
      */
     setState(newState: State) {
         for (const [prop, value] of Object.entries(newState)) {
@@ -49,14 +73,16 @@ export class Spontan {
     }
 
     /**
-     * Delete all state properties. This method will not emit any event.
+     * Clears all state properties. This method does not emit any events.
      */
     clearState() {
         this.state = {};
     }
 
     /**
-     * Set new value for a state property.
+     * Sets a new value for a state property and emits a change event if the value changes.
+     * @param property - The name of the property to update.
+     * @param newValue - The new value to set for the property.
      */
     setProperty<N>(property: keyof State, newValue: N) {
         if (JSON.stringify(this.state[property]) !== JSON.stringify(newValue)) {
@@ -67,7 +93,9 @@ export class Spontan {
     }
 
     /**
-     * Listen to the specific state property change.
+     * Adds a listener to be notified when a specific state property changes.
+     * @param property - The name of the property to listen for changes.
+     * @param listener - A callback function to execute when the property changes.
      */
     onChanged<O, N>(property: keyof State, listener: (oldValue: O, newValue: N) => void) {
         if (this.options.debug) {
@@ -77,7 +105,8 @@ export class Spontan {
     }
 
     /**
-     * Listen to the any state property change.
+     * Adds a listener to be notified when any state property changes.
+     * @param listener - A callback function to execute when any property changes.
      */
     onAnyChanged<O, N>(listener: (property: keyof State, oldValue: O, newValue: N) => void) {
         if (this.options.debug) {
