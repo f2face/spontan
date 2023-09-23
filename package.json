@@ -1,7 +1,7 @@
 {
     "name": "spontan",
-    "version": "1.0.1",
-    "description": "Simple data observer.",
+    "version": "1.1.0",
+    "description": "Simple state management library with event handling capabilities.",
     "main": "dist/index.js",
     "files": [
         "dist/"
@@ -10,7 +10,11 @@
         "build": "pnpm exec tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
+    "keywords": [
+        "state management",
+        "event handling",
+        "typescript"
+    ],
     "author": "Surya Oktafendri <dev@f2face.com>",
     "repository": {
         "type": "git",
