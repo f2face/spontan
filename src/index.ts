@@ -58,8 +58,8 @@ export class Spontan {
      * Returns a read-only copy of the current state.
      * @returns A read-only snapshot of the state.
      */
-    getState(): State {
-        return Object.freeze(structuredClone(this.state));
+    getState(): Readonly<State> {
+        return Object.freeze({ ...this.state });
     }
 
     /**
