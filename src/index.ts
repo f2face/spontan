@@ -35,6 +35,14 @@ export class Spontan {
     }
 
     /**
+     * Set the initial state without emitting events.
+     * @param initialState - The initial state to apply.
+     */
+    public setInitialState(initialState: State) {
+        this.state = initialState;
+    }
+
+    /**
      * Emits a change event when a state property is modified.
      * @param property - The name of the property that changed.
      * @param oldValue - The previous value of the property.
